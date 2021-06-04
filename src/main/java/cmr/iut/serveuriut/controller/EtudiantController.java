@@ -28,5 +28,5 @@ public class EtudiantController {
     public void deleteById(@PathVariable int id) {
         etudiantService.deleteById(id);
     }
-    //e
+    //
 }
