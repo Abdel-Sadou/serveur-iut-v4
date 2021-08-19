@@ -1,22 +1,35 @@
 package cmr.iut.serveuriut.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
+
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Cursus implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private String nom;
+    private String nomCursus;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "niveau")
+    private Niveau niveau;
+    @OneToMany(mappedBy = "cursus",cascade = CascadeType.ALL)
+    private List<Filiere> filiereList;
 
+
+    public List<Filiere> getFiliereList() {
+        return filiereList;
+    }
+
+    @JsonSetter
+    public void setFiliereList(List<Filiere> filiereList) {
+        this.filiereList = filiereList;
+    }
 }

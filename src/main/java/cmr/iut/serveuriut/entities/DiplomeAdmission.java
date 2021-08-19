@@ -11,15 +11,18 @@ import javax.persistence.Id;
 import java.io.Serializable;
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class DiplomeAdmission implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id ;
-    private String nom;
-    private int  annee;
-    private String etablissement;
+    private Long idDiplomeAdmission;
+    private String nomDiplome;
+    private String anneeObtention;
     private String paysObtention;
+    private String etablissement;
     private String centreExamen;
+    private String serieDiplome;
+    private String anneeObtentionAutre;
+
 }

@@ -1,7 +1,7 @@
 package cmr.iut.serveuriut.controller;
 
 import cmr.iut.serveuriut.entities.Niveau;
-import cmr.iut.serveuriut.service.NiveauService;
+import cmr.iut.serveuriut.service.impl.NiveauService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,27 +10,26 @@ import java.util.Optional;
 
 @RestController
 public class NiveauController {
-
-    private final NiveauService niveauService;
     @Autowired
-    public NiveauController(NiveauService niveauService) {
-        this.niveauService = niveauService;
-    }
+    private NiveauService niveauService;
+
     @GetMapping("/niveau")
     public List<Niveau> findAllT() {
-
         return niveauService.findAllT();
     }
     @PostMapping("/niveau")
-    public Niveau AddItem(@RequestBody Niveau niveau) {
-        return niveauService.AddItem(niveau);
+    public Niveau addItem(@RequestBody Niveau i) {
+        return niveauService.addItem(i);
     }
     @GetMapping("/niveau/{id}")
-    public Optional<Niveau> findItemById(@PathVariable int id) {
-        return niveauService.findItemById(id);
+    public Optional<Niveau> findItemById(@PathVariable(name = "id") String s) {
+        return niveauService.findItemById(s);
     }
     @DeleteMapping("/niveau/{id}")
-    public void deleteById(@PathVariable int id) {
-        niveauService.deleteById(id);
+    public void deleteById(@PathVariable(name = "id") String s) {
+        niveauService.deleteById(s);
     }
+
+
+
 }

@@ -1,5 +1,6 @@
 package cmr.iut.serveuriut.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,19 +8,28 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class DiplomeAutre implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private String nom;
-    private int annee;
+    private Long idDiplomeAutre;
+    private String nomDiplome;
+    private String anneeObtention;
     private String etablissement;
-    @ManyToOne
-    @JoinColumn(columnDefinition = "id_etudiant")
-    private Etudiant etudiant;
+    @ManyToOne(cascade = CascadeType.REFRESH)
+            @JoinColumn(name= "idEtudiant")
+    Etudiant etudiant;
+
+    @JsonIgnore
+    public Etudiant getEtudiant() {
+        return etudiant;
+    }
+
+    public void setEtudiant(Etudiant etudiant) {
+        this.etudiant = etudiant;
+    }
 
 
 }

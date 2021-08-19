@@ -1,7 +1,7 @@
 package cmr.iut.serveuriut.controller;
 
 import cmr.iut.serveuriut.entities.Filiere;
-import cmr.iut.serveuriut.service.FiliereService;
+import cmr.iut.serveuriut.service.impl.FiliereService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,22 +12,20 @@ import java.util.Optional;
 public class FiliereController {
     @Autowired
     private FiliereService filiereService;
-
     @GetMapping("/filiere")
     public List<Filiere> findAllT() {
-
         return filiereService.findAllT();
     }
     @PostMapping("/filiere")
-    public Filiere AddItem(@RequestBody Filiere filiere) {
-        return filiereService.AddItem(filiere);
+    public Filiere addItem(@RequestBody Filiere i) {
+        return filiereService.addItem(i);
     }
     @GetMapping("/filiere/{id}")
-    public Optional<Filiere> findItem(@PathVariable int id) {
-        return filiereService.findItemById(id);
+    public Optional<Filiere> findItemById(@PathVariable(name = "id") String s) {
+        return filiereService.findItemById(s);
     }
     @DeleteMapping("/filiere/{id}")
-    public void deleteById(@PathVariable int id) {
-        filiereService.deleteById(id);
+    public void deleteById(@PathVariable(name = "id") String s) {
+        filiereService.deleteById(s);
     }
 }

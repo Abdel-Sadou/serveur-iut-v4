@@ -1,20 +1,39 @@
 package cmr.iut.serveuriut.entities;
+
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
+
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Filiere implements Serializable{
+@NoArgsConstructor
+public class Filiere implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private String nom;
+    private String nomFiliere;
+
+    @JsonIgnore
+    public Cursus getCursus() {
+        return cursus;
+    }
     @ManyToOne
-    @JoinColumn(columnDefinition = "id_etudiant")
     private Etudiant etudiant;
+
+    @JsonIgnore
+    public Etudiant getEtudiant() {
+        return etudiant;
+    }
+    @JsonSetter
+    public void setCursus(Cursus cursus) {
+        this.cursus = cursus;
+    }
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Cursus cursus;
 }

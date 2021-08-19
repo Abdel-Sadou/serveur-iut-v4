@@ -1,7 +1,7 @@
 package cmr.iut.serveuriut.controller;
 
 import cmr.iut.serveuriut.entities.Tuteur;
-import cmr.iut.serveuriut.service.TuteurService;
+import cmr.iut.serveuriut.service.impl.TuteurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,24 +9,25 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-
+@RequestMapping("admin")
 public class TuteurController {
     @Autowired
     private TuteurService tuteurService;
-    @GetMapping("/tuteurs")
+    @GetMapping("/tuteur")
     public List<Tuteur> findAllT() {
         return tuteurService.findAllT();
     }
-    @PostMapping("/tuteurs")
-    public Tuteur AddItem(@RequestBody Tuteur tuteur) {
-        return tuteurService.AddItem(tuteur);
+    @PostMapping("/tuteur")
+    public Tuteur addItem(@RequestBody Tuteur i) {
+        return tuteurService.addItem(i);
     }
-    @GetMapping("/tuteurs/{id}")
-    public Optional<Tuteur> findItemById(@PathVariable int id) {
-        return tuteurService.findItemById(id);
+    @GetMapping("/tuteur/{id}")
+    public Optional<Tuteur> findItemById(@PathVariable  Long aLong) {
+        return tuteurService.findItemById(aLong);
     }
-    @DeleteMapping("/tuteurs/{id}")
-    public void deleteById(@PathVariable int id) {
-        tuteurService.deleteById(id);
+
+    @DeleteMapping("/tuteur/{id}")
+    public void deleteById(@PathVariable Long aLong) {
+        tuteurService.deleteById(aLong);
     }
 }
