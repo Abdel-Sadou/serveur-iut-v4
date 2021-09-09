@@ -1,8 +1,12 @@
 package cmr.iut.serveuriut.controller;
 
+import cmr.iut.serveuriut.entities.Etudiant;
+import cmr.iut.serveuriut.entities.Inscrit;
 import cmr.iut.serveuriut.model.JwtRequest;
 import cmr.iut.serveuriut.model.JwtResponse;
 import cmr.iut.serveuriut.model.UserDTO;
+import cmr.iut.serveuriut.repository.EtudiantRepository;
+import cmr.iut.serveuriut.repository.InscritRepository;
 import cmr.iut.serveuriut.security.JwtTokenUtil;
 import cmr.iut.serveuriut.security.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +32,13 @@ class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
+    @Autowired
+    private EtudiantRepository etudiantRepository;
+    @Autowired
+    private InscritRepository inscritRepository;
 
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public JwtResponse createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -38,9 +46,19 @@ class JwtAuthenticationController {
                 .loadUserByUsername(authenticationRequest.getUsername());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
+        Inscrit inscrit = inscritRepository.findInscritByUsername(authenticationRequest.getUsername());
+        Etudiant ed = etudiantRepository.findEtudiantByInscrit(inscrit);
+        long id=0;
+        if (ed!=null){
+             id = ed.getIdEtudiant();
+            String role =ed.getInscrit().getRole();
+            return new JwtResponse(token,"200",id, role);
+        }else{
+            String role= inscrit.getRole();
+            return new JwtResponse(token,"200", role);
+        }
+   }
 
-        return ResponseEntity.ok(new JwtResponse(token));
-    }
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> saveUser(@RequestBody UserDTO user) throws Exception {
         return ResponseEntity.ok(userDetailsService.save(user));

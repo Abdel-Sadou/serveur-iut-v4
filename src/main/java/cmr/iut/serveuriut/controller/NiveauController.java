@@ -30,6 +30,4 @@ public class NiveauController {
         niveauService.deleteById(s);
     }
 
-
-
 }

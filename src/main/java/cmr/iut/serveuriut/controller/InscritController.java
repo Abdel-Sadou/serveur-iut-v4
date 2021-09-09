@@ -2,6 +2,7 @@ package cmr.iut.serveuriut.controller;
 
 import cmr.iut.serveuriut.entities.Etudiant;
 import cmr.iut.serveuriut.entities.Inscrit;
+import cmr.iut.serveuriut.entities.ResetPass;
 import cmr.iut.serveuriut.repository.EtudiantRepository;
 import cmr.iut.serveuriut.service.impl.EtudiantService;
 import cmr.iut.serveuriut.service.impl.InscritService;
@@ -17,29 +18,30 @@ import java.util.Optional;
 @RestController
 
 public class InscritController {
+
     @Autowired
     private InscritService inscritService;
     @Autowired
     private EtudiantRepository etudiantRepository;
 
-    @PostMapping("/changePasswordANdUsernameInscrit")
-    public String  resetPassword(@Param("nom") String nom, @Param("prenom") String prenom, @Param("password") String password,@Param("username") String username) {
-        inscritService.resetPassword(nom, prenom,password,username);
-        return password;
+    @PostMapping("/changePasswordInscrit")
+    public HttpStatus  resetPassword(@RequestBody ResetPass resetPass ) {
+        inscritService.resetPassword(resetPass.getNom(), resetPass.getPrenom(),resetPass.getLieu(),resetPass.getDate(),resetPass.getPassword());
+        return HttpStatus.OK;
     }
 
-    @GetMapping("/inscrit")
+    @GetMapping("admin/inscrit")
     public List<Inscrit> findAllT() {
         return inscritService.findAllT();
     }
 
-     @GetMapping("/findIdByInscrit")
+     @GetMapping("admin/findIdByInscrit")
     public Long getiDEtudiantByInscrit(@RequestBody Inscrit i) {
         Etudiant e = etudiantRepository.findEtudiantByInscrit(i);
         return e.getIdEtudiant();
     }
 
-    @PostMapping("/inscription")
+    @PostMapping("admin/inscription")
     public HttpStatus addItem(@RequestBody Inscrit i) {
 
        i.setPassword(new BCryptPasswordEncoder().encode(i.getPassword()));
@@ -47,12 +49,12 @@ public class InscritController {
          return HttpStatus.OK;
     }
 
-    @GetMapping("/inscrit/{id}")
+    @GetMapping("admin/inscrit/{id}")
     public Optional<Inscrit> findItemById(@PathVariable Long aLong) {
         return inscritService.findItemById(aLong);
     }
 
-    @DeleteMapping("/inscrit/{id}")
+    @DeleteMapping("admin/inscrit/{id}")
     public void deleteById(@PathVariable Long aLong) {
         inscritService.deleteById(aLong);
     }

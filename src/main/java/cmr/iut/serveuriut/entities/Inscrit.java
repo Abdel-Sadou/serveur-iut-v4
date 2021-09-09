@@ -18,7 +18,7 @@ public class Inscrit implements Serializable {
     private String username;
     private String password;
     private boolean enabled;
-    private final String role="ROLE_USER";
+    private  String role="ROLE_USER";
     @OneToOne
     Etudiant etudiant;
 

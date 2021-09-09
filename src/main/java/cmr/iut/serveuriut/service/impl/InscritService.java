@@ -38,10 +38,9 @@ public class InscritService implements ICrudService<Inscrit,Long> {
     }
 
 
-    public void resetPassword(String nom,String prenom,String password,String username){
-            Etudiant etudiant = edRepository.findByNomAndPrenom(nom,prenom);
+    public void resetPassword(String nom,String prenom,String lieu,String date ,String password){
+            Etudiant etudiant = edRepository.findByNomAndPrenomAndLieuAndDateNaissance(nom, prenom, lieu, date);
             Inscrit inscrit = etudiant.getInscrit();
-                inscrit.setUsername(username);
                 inscrit.setPassword(password);
                 inscritRepository.save(inscrit);
     }

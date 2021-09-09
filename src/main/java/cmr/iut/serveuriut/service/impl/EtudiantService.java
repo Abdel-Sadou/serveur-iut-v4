@@ -4,6 +4,8 @@ import cmr.iut.serveuriut.entities.Etudiant;
 import cmr.iut.serveuriut.repository.EtudiantRepository;
 import cmr.iut.serveuriut.service.ICrudService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,4 +34,8 @@ public class EtudiantService implements ICrudService<Etudiant,Long>{
     public void deleteById(Long aLong) {
         etudiantRepository.deleteById(aLong);
     }
+
+   public Page<Etudiant> etudiants(int page, int size){
+     return  etudiantRepository.findAll(PageRequest.of(size,page));
+   }
 }
